@@ -1,11 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Patch, Post, Req, Res, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Patch, Post, Req, Res, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { SignupDTO, SignupWithGmailDTO } from './dto/signup.dto';
 import { LoginDTO, LoginWithGmailDTO } from './dto/login.dto';
 import { ConfrimEmailDto } from './dto/confirmEmail.dto';
 import { ResendConfrimEmailDto } from './dto/resendEmail.dto';
 import type { Request, Response } from 'express';
-import { WatchInterceptor } from 'src/common/interceptor';
+
 
 @UsePipes(new ValidationPipe({
   whitelist: true,
@@ -35,7 +35,6 @@ export class AuthenticationController {
     return credentials
   }
 
-  @UseInterceptors(WatchInterceptor)
   @HttpCode(HttpStatus.OK)
   @Post('login')
   public Login(

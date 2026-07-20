@@ -1,4 +1,4 @@
-import { GenderEnum, ProviderEnum, RoleEnum } from "../enum";
+import { GenderEnum, languageEnum, ProviderEnum, RoleEnum } from "../enum";
 
 export interface IUser {
     firstName: string;
@@ -19,4 +19,5 @@ export interface IUser {
     role: RoleEnum;
     createdAt: Date;
     updatedAt?: Date;
+    lang: languageEnum
 }

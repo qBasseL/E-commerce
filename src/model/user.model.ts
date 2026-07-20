@@ -1,6 +1,6 @@
 import { MongooseModule, Prop, Schema, SchemaFactory, Virtual } from "@nestjs/mongoose";
-import { HydratedDocument,  } from "mongoose";
-import { GenderEnum, ProviderEnum, RoleEnum } from "../common/enum";
+import { HydratedDocument, } from "mongoose";
+import { GenderEnum, languageEnum, ProviderEnum, RoleEnum } from "../common/enum";
 import type { IUser } from "../common/interface";
 
 
@@ -21,6 +21,9 @@ export class User implements IUser {
 
     @Prop({ type: String, required: true })
     lastName!: string;
+
+    @Prop({ type: String, enum: Object.values(languageEnum), default: languageEnum.EN })
+    lang!: languageEnum;
 
     @Virtual({
         set: function (this: HUserDocument, value: string) {
