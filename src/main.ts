@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { PORT } from './config';
 import { ValidationPipe } from '@nestjs/common';
-import { LanguageInterceptor, WatchInterceptor } from './common/interceptor';
+import { LanguageInterceptor, ResponseInterceptor, WatchInterceptor } from './common/interceptor';
 
 
 async function bootstrap() {
@@ -14,7 +14,7 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
     stopAtFirstError: true
   }))
-  app.useGlobalInterceptors(new WatchInterceptor(), new LanguageInterceptor())
+  app.useGlobalInterceptors(new WatchInterceptor(), new LanguageInterceptor(), new ResponseInterceptor())
   await app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
   });
