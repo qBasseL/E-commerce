@@ -15,7 +15,6 @@ export class AuthenticationGuard implements CanActivate {
     context: ExecutionContext,
   ): Promise<boolean> {
 
-
     let authorization!: string;
 
     const req = context.switchToHttp().getRequest<AuthRequest>();
