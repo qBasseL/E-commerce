@@ -1,7 +1,8 @@
-import { Controller, Get, Req, SetMetadata, UseGuards } from '@nestjs/common';
+import { Controller, Get, MaxFileSizeValidator, ParseFilePipe, Patch, Req, SetMetadata, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Auth, RoleEnum, TokenTypeEnums, User } from 'src/common';
+import { Auth, fileFieldValidation, localMulter, RoleEnum, TokenTypeEnums, User } from 'src/common';
 import type { HUserDocument } from 'src/model';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('user')
 export class UserController {
@@ -12,6 +13,23 @@ export class UserController {
   public Profile(
     @User() user: HUserDocument
   ) {
-    return {user: user,}
+    return { user: user, }
+  }
+
+
+  @UseInterceptors(FileInterceptor('attachment', localMulter({ fileSize: 5, folder: 'User', validations: fileFieldValidation.image })))
+  @Auth([RoleEnum.User], TokenTypeEnums.Access_Token)
+  @Patch('profile-image')
+  public ProfileImage(
+    @User() user: HUserDocument,
+    @UploadedFile(new ParseFilePipe({
+      fileIsRequired: true,
+      validators: [new MaxFileSizeValidator({
+        maxSize: 5 * 1024 * 1024,
+        errorMessage: 'Exceeded file maximum size please upload a picture 5mb or less'
+      })]
+    })) file: Express.Multer.File
+  ) {
+    return { user: user, file }
   }
 }

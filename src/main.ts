@@ -4,11 +4,15 @@ import { AppModule } from './app.module';
 import { PORT } from './config';
 import { ValidationPipe } from '@nestjs/common';
 import { LanguageInterceptor, ResponseInterceptor, WatchInterceptor } from './common/interceptor';
+import * as express from 'express'
+import { resolve } from 'node:path';
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false });
+  app.setGlobalPrefix('api')
   app.enableCors({})
+  app.use('/uploads', express.static(resolve('./uploads')))
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     forbidNonWhitelisted: true,

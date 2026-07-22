@@ -7,11 +7,6 @@ import { ResendConfrimEmailDto } from './dto/resendEmail.dto';
 import type { Request, Response } from 'express';
 
 
-@UsePipes(new ValidationPipe({
-  whitelist: true,
-  forbidNonWhitelisted: true,
-  stopAtFirstError: true
-}))
 @Controller('auth')
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) { }
@@ -56,7 +51,7 @@ export class AuthenticationController {
   @Patch('confirm-email')
   public async ConfirmEmail(
     @Body() body: ConfrimEmailDto
-  ) {
+  ): Promise<void> {
     await this.authenticationService.ConfirmSignup(body)
   }
 
