@@ -28,7 +28,7 @@ export const localMulter = ({ validations = [], fileSize = 5, folder = 'public' 
             },
         }),
         fileFilter(req: Request, file: IMulter, callback: Function) {
-            if (!['image/jpeg', 'image/png'].includes(file.mimetype)) {
+            if (!validations.includes(file.mimetype)) {
                 return callback(new BadRequestException('Invalid file format'))
             }
             return callback(null, true)
